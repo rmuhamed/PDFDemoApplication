@@ -1,21 +1,15 @@
 package com.gft.agmobile.samples.pdfdemoapp.ui.activity;
 
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
 
 import com.gft.agmobile.samples.pdfdemoapp.R;
-import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
-import com.gft.agmobile.samples.pdfdemoapp.canvas.TextPaint;
-import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDocumentController;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFControllerResultListener;
+import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDocumentController;
+import com.gft.agmobile.samples.pdfdemoapp.generator.PaintGenerator;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PDFControllerResultListener {
 
@@ -23,7 +17,6 @@ public class MainActivity extends AppCompatActivity implements PDFControllerResu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
-
 
         this.generatePDF();
     }
@@ -46,20 +39,7 @@ public class MainActivity extends AppCompatActivity implements PDFControllerResu
                 .show();
     }
 
-    private TextPaint buildTextCanvas(String text, int textColor, float textSize, float x, float y) {
-        return new TextPaint.Builder()
-                .text(text)
-                .setX(x)
-                .setY(y)
-                .textColor(textColor)
-                .textSize(textSize).build();
-    }
-
     private void generatePDF() {
-        List<GenericPaint> paintToBeDrawn = new ArrayList<>();
-        paintToBeDrawn.add(this.buildTextCanvas(this.getString(R.string.TITLE), ContextCompat.getColor(this, android.R.color.holo_purple), 30, 100, 150));
-        paintToBeDrawn.add(this.buildTextCanvas(this.getString(R.string.SECONDARY_TEXT), ContextCompat.getColor(this, android.R.color.holo_blue_dark), 30, 100, 300));
-
-        new PDFDocumentController(this, this).make(paintToBeDrawn);
+        new PDFDocumentController(this, this).make(PaintGenerator.generate(this));
     }
 }

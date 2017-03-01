@@ -35,7 +35,7 @@ public class RectPaint implements GenericPaint {
             return new RectPaint(this.left != null ? this.left.intValue() : 0,
                     this.top != null ? this.top.intValue() : 0,
                     this.right != null ? this.right.intValue() : 0,
-                    this.top != null ? this.top.intValue() : 0,
+                    this.bottom != null ? this.bottom.intValue() : 0,
                     this.color);
         }
 
@@ -59,6 +59,12 @@ public class RectPaint implements GenericPaint {
 
         public Builder setTop(int top) {
             this.top = Integer.valueOf(top);
+
+            return this;
+        }
+
+        public Builder setColor(int color) {
+            this.color = Integer.valueOf(color);
 
             return this;
         }
