@@ -24,7 +24,7 @@ import java.util.List;
  * Created by romh on 23/02/2017.
  */
 
-public class PDFController {
+public class PDFDocumentController {
 
     public static final String FILE_NAME = "demoPDF.pdf";
     public static final String TITLE = "O2 Banking";
@@ -39,7 +39,7 @@ public class PDFController {
     private final PdfDocument document;
 
 
-    public PDFController(Context aContext, PDFControllerResultListener PDFControllerResultListener) {
+    public PDFDocumentController(Context aContext, PDFControllerResultListener PDFControllerResultListener) {
         this.context = aContext;
         this.PDFControllerResultListener = PDFControllerResultListener;
 

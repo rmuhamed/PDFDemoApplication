@@ -4,11 +4,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.gft.agmobile.samples.pdfdemoapp.R;
 import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
 import com.gft.agmobile.samples.pdfdemoapp.canvas.TextPaint;
-import com.gft.agmobile.samples.pdfdemoapp.controller.PDFController;
+import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDocumentController;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFControllerResultListener;
 
 import java.io.File;
@@ -58,6 +60,6 @@ public class MainActivity extends AppCompatActivity implements PDFControllerResu
         paintToBeDrawn.add(this.buildTextCanvas(this.getString(R.string.TITLE), ContextCompat.getColor(this, android.R.color.holo_purple), 30, 100, 150));
         paintToBeDrawn.add(this.buildTextCanvas(this.getString(R.string.SECONDARY_TEXT), ContextCompat.getColor(this, android.R.color.holo_blue_dark), 30, 100, 300));
 
-        new PDFController(this, this).make(paintToBeDrawn);
+        new PDFDocumentController(this, this).make(paintToBeDrawn);
     }
 }
