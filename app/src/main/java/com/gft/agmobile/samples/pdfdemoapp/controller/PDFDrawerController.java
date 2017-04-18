@@ -11,9 +11,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
 import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
-import com.gft.agmobile.samples.pdfdemoapp.utils.FileGenerator;
+import com.gft.agmobile.samples.pdfdemoapp.utils.FileUtils;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -24,7 +23,7 @@ import java.util.List;
  * Created by romh on 23/02/2017.
  */
 
-public class PDFDocumentController {
+public class PDFDrawerController {
 
     public static final String FILE_NAME = "demoPDF.pdf";
     public static final String TITLE = "O2 Banking";
@@ -33,15 +32,15 @@ public class PDFDocumentController {
 
 
     private final Context context;
-    private final PDFControllerResultListener PDFControllerResultListener;
+    private final PDFDrawerControllerResultListener PDFDrawerControllerResultListener;
 
     private final PageInfo pageInfo;
     private final PdfDocument document;
 
 
-    public PDFDocumentController(Context aContext, PDFControllerResultListener PDFControllerResultListener) {
+    public PDFDrawerController(Context aContext, PDFDrawerControllerResultListener PDFDrawerControllerResultListener) {
         this.context = aContext;
-        this.PDFControllerResultListener = PDFControllerResultListener;
+        this.PDFDrawerControllerResultListener = PDFDrawerControllerResultListener;
 
         this.document = new PdfDocument();
         this.pageInfo = new PageInfo.Builder(1000, 1000, 1).create();
@@ -63,12 +62,13 @@ public class PDFDocumentController {
     public void write() {
 
         try {
-            FileOutputStream fos = FileGenerator.getOutputStream(this.context, FILE_NAME);
+            FileOutputStream fos = FileUtils.getOutputStream(this.context, FILE_NAME);
             this.document.writeTo(fos);
 
-            this.PDFControllerResultListener.onSuccess(new File(FILE_NAME));
+
+            this.PDFDrawerControllerResultListener.onSuccess(FILE_NAME);
         } catch (IOException e) {
-            this.PDFControllerResultListener.onSomeError(e.toString());
+            this.PDFDrawerControllerResultListener.onSomeError(e.toString());
         } finally {
             // close the document
             this.document.close();
