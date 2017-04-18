@@ -3,12 +3,15 @@ package com.gft.agmobile.samples.pdfdemoapp.controller;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.pdf.PdfDocument;
 import android.graphics.pdf.PdfDocument.Page;
 import android.graphics.pdf.PdfDocument.PageInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.gft.agmobile.samples.pdfdemoapp.R;
 import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
@@ -39,12 +42,21 @@ public class PDFDrawerController {
     private final PdfDocument document;
 
 
-    public PDFDrawerController(Context aContext, PDFDrawerControllerResultListener PDFDrawerControllerResultListener) {
+    public PDFDrawerController(Context aContext, PDFDrawerControllerResultListener listener) {
         this.context = aContext;
-        this.PDFDrawerControllerResultListener = PDFDrawerControllerResultListener;
+        this.PDFDrawerControllerResultListener = listener;
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+
+        Point point = new Point();
+
+        display.getSize(point);
+        int width = point.x;
+        int height = point.y;
 
         this.document = new PdfDocument();
-        this.pageInfo = new PageInfo.Builder(1000, 1000, 1).create();
+        this.pageInfo = new PageInfo.Builder(width, height, 1).create();
     }
 
     public void make(@NonNull List<GenericPaint> genericPaintList) {
@@ -79,9 +91,7 @@ public class PDFDrawerController {
     public void makeDummyPage()  {
         String date = new SimpleDateFormat("dd. MMMM yyyy hh:ss").format(new Date());
         // crate a page description
-        PdfDocument.PageInfo pageInfo = new PageInfo.Builder(1000, 1000, 1).create();
-
-        Page page = document.startPage(pageInfo);
+        Page page = document.startPage(this.pageInfo);
         Canvas c = page.getCanvas();
 
         Paint p = new Paint();
@@ -98,7 +108,7 @@ public class PDFDrawerController {
 
         float w = p3.measureText(date)/2;
         float textSize = p3.getTextSize();
-        
+
         Paint rectPaint = new Paint();
         rectPaint.setColor(ContextCompat.getColor(this.context, R.color.main));
 
