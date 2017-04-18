@@ -4,5 +4,6 @@
     <string name="successful_result">SUCCESS</string>
     <string name="TITLE">O2 Banking</string>
     <string name="SECONDARY_TEXT">Umsatzayskunft O2 Banking Konto</string>;
+    <string name="EXECUTION_DATE">Execution Date</string>;
 
 </resources>

@@ -1,9 +1,12 @@
 package com.gft.agmobile.samples.pdfdemoapp.generator;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.content.ContextCompat;
 
 import com.gft.agmobile.samples.pdfdemoapp.R;
+import com.gft.agmobile.samples.pdfdemoapp.canvas.DrawablePaint;
 import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
 
 import java.util.ArrayList;
@@ -17,9 +20,14 @@ public class PaintGenerator {
 
     public static List<GenericPaint> generate(Context context) {
         List<GenericPaint> paintToBeDrawn = new ArrayList<>();
-        paintToBeDrawn.add(new TextPaintGenerator(100, 150, context.getString(R.string.TITLE), ContextCompat.getColor(context, android.R.color.holo_purple), 30).generate());
-        paintToBeDrawn.add(new TextPaintGenerator(100, 300, context.getString(R.string.SECONDARY_TEXT), ContextCompat.getColor(context, android.R.color.holo_blue_dark), 30).generate());
-        paintToBeDrawn.add(new RectPaintGenerator(200, 400, 300, 500, ContextCompat.getColor(context, android.R.color.holo_orange_dark)).generate());
+
+        paintToBeDrawn.add(new DrawablePaintGenerator(200, 300, 100, 200, context.getResources(), R.drawable.o2banking_logo).generate());
+
+
+        paintToBeDrawn.add(new TextPaintGenerator(100, 300, context.getString(R.string.SECONDARY_TEXT), ContextCompat.getColor(context, R.color.black), 30).generate());
+
+        paintToBeDrawn.add(new TextPaintGenerator(200, 300, context.getString(R.string.EXECUTION_DATE), ContextCompat.getColor(context, R.color.white), 20).generate());
+        paintToBeDrawn.add(new RectPaintGenerator(200, 1000, 400, 500, ContextCompat.getColor(context, R.color.main)).generate());
 
         return paintToBeDrawn;
     }

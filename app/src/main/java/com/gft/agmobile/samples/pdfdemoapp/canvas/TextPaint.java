@@ -2,7 +2,6 @@ package com.gft.agmobile.samples.pdfdemoapp.canvas;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.net.Uri;
 
 /**
  * Created by romh on 23/02/2017.

@@ -1,5 +1,7 @@
 package com.gft.agmobile.samples.pdfdemoapp.canvas;
 
+import android.app.Notification;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -17,6 +19,8 @@ public class RectPaint implements GenericPaint {
 
         this.paint = new Paint();
         this.paint.setColor(backgroundColor);
+        this.paint.setStyle(Paint.Style.FILL);
+        this.paint.setTextSize(30);
     }
 
     @Override
