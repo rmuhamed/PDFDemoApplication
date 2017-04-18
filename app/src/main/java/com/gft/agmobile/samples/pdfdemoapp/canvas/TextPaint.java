@@ -12,12 +12,17 @@ public class TextPaint implements GenericPaint {
     private final float xPos;
     private final float yPos;
     private final Paint paint;
+    private final int backgroundColor;
 
 
-    private TextPaint(String text, float textSize, int textColor, float x, float y) {
+    private TextPaint(String text, float textSize, int backgroundColor, int textColor, float x, float y) {
         this.paint = new Paint();
         this.paint.setTextSize(textSize);
         this.paint.setColor(textColor);
+
+        this.paint.setStyle(Paint.Style.FILL);
+
+        this.backgroundColor = backgroundColor;
 
         this.xPos = x;
         this.yPos = y;
@@ -27,12 +32,14 @@ public class TextPaint implements GenericPaint {
 
 
     public void drawIn(Canvas canvas) {
+
         canvas.drawText(this.text, this.xPos, this.yPos, this.paint);
     }
 
     public static final class Builder {
         private static final float DEFAULT_TEXT_SIZE = 30.0f;
         private Integer textColor;
+        private Integer backgroundColor;
         private Float textSize;
         private Float xPosition;
         private Float yPosition;
@@ -42,6 +49,7 @@ public class TextPaint implements GenericPaint {
         public TextPaint build() {
             return new TextPaint(this.text,
                     this.textSize != null ? this.textSize.floatValue() : DEFAULT_TEXT_SIZE,
+                    this.backgroundColor,
                     this.textColor,
                     this.xPosition!=null ? this.xPosition.floatValue() : 0f,
                     this.yPosition != null ? this.yPosition.floatValue() : 0f);
@@ -54,6 +62,11 @@ public class TextPaint implements GenericPaint {
 
         public Builder text(String text) {
             this.text = text;
+            return this;
+        }
+
+        public Builder setBackgroundColor(int backgroundColor) {
+            this.backgroundColor = backgroundColor;
             return this;
         }
 
@@ -73,7 +86,5 @@ public class TextPaint implements GenericPaint {
 
             return this;
         }
-
     }
-
 }

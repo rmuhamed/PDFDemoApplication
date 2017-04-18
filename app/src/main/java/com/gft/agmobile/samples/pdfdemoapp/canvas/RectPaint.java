@@ -19,8 +19,6 @@ public class RectPaint implements GenericPaint {
 
         this.paint = new Paint();
         this.paint.setColor(backgroundColor);
-        this.paint.setStyle(Paint.Style.FILL);
-        this.paint.setTextSize(30);
     }
 
     @Override

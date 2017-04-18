@@ -10,6 +10,7 @@ import android.graphics.pdf.PdfDocument.PageInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
+import com.gft.agmobile.samples.pdfdemoapp.R;
 import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
 import com.gft.agmobile.samples.pdfdemoapp.utils.FileUtils;
 
@@ -65,7 +66,6 @@ public class PDFDrawerController {
             FileOutputStream fos = FileUtils.getOutputStream(this.context, FILE_NAME);
             this.document.writeTo(fos);
 
-
             this.PDFDrawerControllerResultListener.onSuccess(FILE_NAME);
         } catch (IOException e) {
             this.PDFDrawerControllerResultListener.onSomeError(e.toString());
@@ -86,27 +86,29 @@ public class PDFDrawerController {
 
         Paint p = new Paint();
         p.setTextSize(80);
-        p.setColor(ContextCompat.getColor(this.context, android.R.color.holo_purple));
+        p.setColor(ContextCompat.getColor(this.context, R.color.main));
 
         Paint p2 = new Paint();
         p2.setTextSize(30);
-        p2.setColor(ContextCompat.getColor(this.context, android.R.color.background_dark));
+        p2.setColor(ContextCompat.getColor(this.context, R.color.black));
 
         Paint p3 = new Paint();
-        p2.setTextSize(30);
-        p2.setColor(ContextCompat.getColor(this.context, android.R.color.background_dark));
+        p3.setTextSize(40);
+        p3.setColor(ContextCompat.getColor(this.context, R.color.white));
 
-        Rect aRectangle = new Rect(100, 600, 700, 700);
-
+        float w = p3.measureText(date)/2;
+        float textSize = p3.getTextSize();
+        
         Paint rectPaint = new Paint();
-        rectPaint.setColor(ContextCompat.getColor(this.context, android.R.color.holo_blue_dark));
+        rectPaint.setColor(ContextCompat.getColor(this.context, R.color.main));
 
         c.drawText(TITLE, 100, 150, p);
         c.drawText(SECONDARY_TEXT, 100, 300, p2);
-        c.drawRect(aRectangle, rectPaint);
-        c.drawText(date, 100, 500, p3);
 
-        document.finishPage(page);
+        c.drawRect(100-w, 600 - textSize, 700 + w, 700, rectPaint);
+        c.drawText(date, 100, 600, p3);
+
+        this.document.finishPage(page);
 
         this.write();
     }

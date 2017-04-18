@@ -24,10 +24,18 @@ public class PaintGenerator {
         paintToBeDrawn.add(new DrawablePaintGenerator(200, 300, 100, 200, context.getResources(), R.drawable.o2banking_logo).generate());
 
 
-        paintToBeDrawn.add(new TextPaintGenerator(100, 300, context.getString(R.string.SECONDARY_TEXT), ContextCompat.getColor(context, R.color.black), 30).generate());
+        paintToBeDrawn.add(new TextPaintGenerator(100, 300,
+                context.getString(R.string.SECONDARY_TEXT),
+                ContextCompat.getColor(context, android.R.color.transparent),
+                ContextCompat.getColor(context, R.color.black), 30)
+                .generate());
 
-        paintToBeDrawn.add(new TextPaintGenerator(200, 300, context.getString(R.string.EXECUTION_DATE), ContextCompat.getColor(context, R.color.white), 20).generate());
-        paintToBeDrawn.add(new RectPaintGenerator(200, 1000, 400, 500, ContextCompat.getColor(context, R.color.main)).generate());
+        paintToBeDrawn.add(new TextPaintGenerator(200, 400,
+                context.getString(R.string.EXECUTION_DATE),
+                ContextCompat.getColor(context, R.color.main),
+                ContextCompat.getColor(context, R.color.white), 20)
+                .generate());
+
 
         return paintToBeDrawn;
     }

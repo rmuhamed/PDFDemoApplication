@@ -3,7 +3,6 @@ package com.gft.agmobile.samples.pdfdemoapp.ui.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -16,9 +15,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
+import com.gft.agmobile.samples.pdfdemoapp.BuildConfig;
 import com.gft.agmobile.samples.pdfdemoapp.R;
-import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerControllerResultListener;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerController;
+import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerControllerResultListener;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFHandlerCallback;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFHandlerController;
 import com.gft.agmobile.samples.pdfdemoapp.generator.PaintGenerator;
@@ -102,13 +102,10 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
         builder.setTitle("No Application Found");
         builder.setMessage("Download one from Android Market?");
         builder.setPositiveButton("Yes, Please",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent marketIntent = new Intent(Intent.ACTION_VIEW);
-                        marketIntent.setData(Uri.parse(MARKET_LINK_TO_ADOBE_READER));
-                        MainActivity.this.startActivity(marketIntent);
-                    }
+                (dialog, which) -> {
+                    Intent marketIntent = new Intent(Intent.ACTION_VIEW);
+                    marketIntent.setData(Uri.parse(MARKET_LINK_TO_ADOBE_READER));
+                    MainActivity.this.startActivity(marketIntent);
                 });
         builder.setNegativeButton("No, Thanks", null);
         builder.create().show();
@@ -121,8 +118,13 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
     }
 
     private void generatePDF(PDFDrawerControllerResultListener listener) {
-        new PDFDrawerController(this, listener)
-                .make(PaintGenerator.generate(this));
+        PDFDrawerController controller = new PDFDrawerController(this, listener);
+        if (BuildConfig.DUMMY) {
+            controller.makeDummyPage();
+        } else {
+            controller.make(PaintGenerator.generate(this));
+        }
+
     }
 
     private String[] getPermissionsToCheck(int hasStoragePermission) {

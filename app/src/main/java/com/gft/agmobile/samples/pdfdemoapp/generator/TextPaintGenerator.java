@@ -8,16 +8,18 @@ import com.gft.agmobile.samples.pdfdemoapp.canvas.TextPaint;
  */
 
 class TextPaintGenerator {
-    private int x;
-    private int y;
-    private String text;
-    private int textColor;
-    private float textSize;
+    private final int x;
+    private final int y;
+    private final String text;
+    private final int backgroundColor;
+    private final int textColor;
+    private final  float textSize;
 
-    TextPaintGenerator(int x, int y, String text, int textColor, float textSize) {
+    TextPaintGenerator(int x, int y, String text, int backgroundColor, int textColor, float textSize) {
         this.x = x;
         this.y = y;
         this.text = text;
+        this.backgroundColor = backgroundColor;
         this.textColor = textColor;
         this.textSize = textSize;
     }
@@ -27,6 +29,7 @@ class TextPaintGenerator {
                 .text(this.text)
                 .setX(this.x)
                 .setY(this.y)
+                .setBackgroundColor(this.backgroundColor)
                 .textColor(this.textColor)
                 .textSize(this.textSize).build();
     }
