@@ -41,22 +41,23 @@ public class PDFDrawerController {
     private final PageInfo pageInfo;
     private final PdfDocument document;
 
+    private final int marginRight;
+    private final int marginLeft;
+    private final int marginTop;
+    private final int marginBottom;
 
-    public PDFDrawerController(Context aContext, PDFDrawerControllerResultListener listener) {
+
+    public PDFDrawerController(Context aContext, int displayWidth, int displayHeight, PDFDrawerControllerResultListener listener) {
         this.context = aContext;
         this.PDFDrawerControllerResultListener = listener;
 
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-
-        Point point = new Point();
-
-        display.getSize(point);
-        int width = point.x;
-        int height = point.y;
+        this.marginLeft = 100;
+        this.marginRight = displayWidth - 100;
+        this.marginTop = 100;
+        this.marginBottom = displayHeight - 100;
 
         this.document = new PdfDocument();
-        this.pageInfo = new PageInfo.Builder(width, height, 1).create();
+        this.pageInfo = new PageInfo.Builder(displayWidth, displayHeight, 1).create();
     }
 
     public void make(@NonNull List<GenericPaint> genericPaintList) {
@@ -89,38 +90,61 @@ public class PDFDrawerController {
 
     //Dummy test
     public void makeDummyPage()  {
-        String date = new SimpleDateFormat("dd. MMMM yyyy hh:ss").format(new Date());
         // crate a page description
         Page page = document.startPage(this.pageInfo);
         Canvas c = page.getCanvas();
 
-        Paint p = new Paint();
-        p.setTextSize(80);
-        p.setColor(ContextCompat.getColor(this.context, R.color.main));
 
-        Paint p2 = new Paint();
-        p2.setTextSize(30);
-        p2.setColor(ContextCompat.getColor(this.context, R.color.black));
 
-        Paint p3 = new Paint();
-        p3.setTextSize(40);
-        p3.setColor(ContextCompat.getColor(this.context, R.color.white));
+        this.paintTitle(c);
+        this.paintSubtitle(c);
+        this.paintTableHeader(c);
 
-        float w = p3.measureText(date)/2;
-        float textSize = p3.getTextSize();
+        this.paintFooter(c);
 
-        Paint rectPaint = new Paint();
-        rectPaint.setColor(ContextCompat.getColor(this.context, R.color.main));
-
-        c.drawText(TITLE, 100, 150, p);
-        c.drawText(SECONDARY_TEXT, 100, 300, p2);
-
-        c.drawRect(100-w, 600 - textSize, 700 + w, 700, rectPaint);
-        c.drawText(date, 100, 600, p3);
 
         this.document.finishPage(page);
 
         this.write();
     }
 
+    private void paintFooter(Canvas canvas) {
+        String footer = context.getString(R.string.txdetails_print_footer_imprint);
+
+        Paint p3 = new Paint();
+        p3.setTextSize(40);
+        p3.setColor(ContextCompat.getColor(this.context, R.color.white));
+
+        canvas.drawText(footer, marginLeft, marginBottom, p3);
+    }
+
+    public void paintTitle(Canvas canvas) {
+        Paint p = new Paint();
+        p.setTextSize(80);
+        p.setColor(ContextCompat.getColor(this.context, R.color.main));
+
+        canvas.drawText(TITLE, 100, 150, p);
+    }
+
+    public void paintSubtitle(Canvas canvas) {
+        Paint p2 = new Paint();
+        p2.setTextSize(30);
+        p2.setColor(ContextCompat.getColor(this.context, R.color.black));
+
+        canvas.drawText(SECONDARY_TEXT, 100, 300, p2);
+    }
+
+    public void paintTableHeader(Canvas canvas) {
+        String text = context.getString(R.string.txdetails_print_title);
+
+        Paint p3 = new Paint();
+        p3.setTextSize(40);
+        p3.setColor(ContextCompat.getColor(this.context, R.color.black));
+
+        Paint rectPaint = new Paint();
+        rectPaint.setColor(ContextCompat.getColor(this.context, R.color.mediumGrey));
+
+        canvas.drawRect(marginLeft, 550, marginRight, 700, rectPaint);
+        canvas.drawText(text, 250, 600, p3);
+    }
 }

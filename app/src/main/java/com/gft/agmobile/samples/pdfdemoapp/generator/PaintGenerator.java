@@ -25,13 +25,13 @@ public class PaintGenerator {
 
 
         paintToBeDrawn.add(new TextPaintGenerator(100, 300,
-                context.getString(R.string.SECONDARY_TEXT),
+                context.getString(R.string.txdetails_print_footer_imprint),
                 ContextCompat.getColor(context, android.R.color.transparent),
                 ContextCompat.getColor(context, R.color.black), 30)
                 .generate());
 
         paintToBeDrawn.add(new TextPaintGenerator(200, 400,
-                context.getString(R.string.EXECUTION_DATE),
+                context.getString(R.string.timestamp),
                 ContextCompat.getColor(context, R.color.main),
                 ContextCompat.getColor(context, R.color.white), 20)
                 .generate());

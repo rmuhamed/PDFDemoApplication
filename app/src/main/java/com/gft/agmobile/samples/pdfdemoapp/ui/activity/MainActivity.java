@@ -14,9 +14,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 
 import com.gft.agmobile.samples.pdfdemoapp.BuildConfig;
 import com.gft.agmobile.samples.pdfdemoapp.R;
+import com.gft.agmobile.samples.pdfdemoapp.controller.DisplayController;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerController;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerControllerResultListener;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFHandlerCallback;
@@ -92,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
             this.startActivityForResult(intent, Activity.RESULT_FIRST_USER);
+            this.finish();
         } catch (ActivityNotFoundException e) {
             this.showPDFReaderNotFoundDialog();
         }
@@ -118,7 +121,12 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
     }
 
     private void generatePDF(PDFDrawerControllerResultListener listener) {
-        PDFDrawerController controller = new PDFDrawerController(this, listener);
+        int actionBarHeight = (int) (56 * DisplayController.getInstance(this).getDensityScale());
+
+        int displayWidth = DisplayController.getInstance(this).getScreenWidth();
+        int displayHeight = DisplayController.getInstance(this).getScreenHeight() - actionBarHeight;
+
+        PDFDrawerController controller = new PDFDrawerController(this, displayWidth, displayHeight, listener);
         if (BuildConfig.DUMMY) {
             controller.makeDummyPage();
         } else {
