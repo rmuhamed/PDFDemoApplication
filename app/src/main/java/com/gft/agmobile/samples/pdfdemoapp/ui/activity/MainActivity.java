@@ -26,11 +26,17 @@ import com.gft.agmobile.samples.pdfdemoapp.controller.PDFHandlerController;
 import com.gft.agmobile.samples.pdfdemoapp.generator.PaintGenerator;
 import com.gft.agmobile.samples.pdfdemoapp.ui.navigation.NavigationHandler;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements PDFDrawerControllerResultListener, PDFHandlerCallback {
     private static final int PERMISSION_REQUEST = 200;
+    private static final String PDF_EXTENSION = "pdf";
+    private static final String DATE_PATTERN = "yyyy-MM-dd hh:mm";
+
     private int documentHeight;
     private int documentWith;
 
@@ -42,13 +48,9 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
         this.calculatePageDimensionsFromDisplay();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int hasStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-            if (hasStoragePermission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, getPermissionsToCheck(hasStoragePermission), PERMISSION_REQUEST);
-            } else {
-                this.generatePDF(this);
-            }
+            this.handlePermissions();
+        } else {
+            this.generatePDF(this, this.getDocumentName());
         }
     }
 
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
                     if (permissionDenied) {
                         //Inform to user
                     } else {
-                        this.generatePDF(this);
+                        this.generatePDF(this, this.getDocumentName());
                     }
                 }
                 break;
@@ -122,13 +124,23 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
                 .show();
     }
 
-    private void generatePDF(PDFDrawerControllerResultListener listener) {
+    private void handlePermissions() {
+        int hasStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (hasStoragePermission != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, getPermissionsToCheck(hasStoragePermission), PERMISSION_REQUEST);
+        } else {
+            this.generatePDF(this, this.getDocumentName());
+        }
+    }
+
+    private void generatePDF(PDFDrawerControllerResultListener listener, String documentName) {
         AbstractPDFDrawerController controller = null;
         List<GenericPaint> paintsToBeDrawnIntoPDF = new ArrayList<>();
         if (BuildConfig.DUMMY) {
-            controller = new DummyPDFDrawerController(this, this.documentWith, this.documentHeight, listener);
+            controller = new DummyPDFDrawerController(this, documentName, this.documentWith, this.documentHeight, listener);
         } else {
-            controller = new PDFDrawerController(this, this.documentWith, this.documentHeight, listener);
+            controller = new PDFDrawerController(this, documentName, this.documentWith, this.documentHeight, listener);
             paintsToBeDrawnIntoPDF = PaintGenerator.generate(this);
         }
 
@@ -149,5 +161,15 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
 
         this.documentWith = DisplayController.getInstance(this).getScreenWidth();
         this.documentHeight = DisplayController.getInstance(this).getScreenHeight() - actionBarHeight;
+    }
+
+    private String getDocumentName() {
+        return new StringBuilder(new SimpleDateFormat(DATE_PATTERN, Locale.getDefault()).format(new Date()))
+                .append('_')
+                .append("o2Banking")
+                .append('_')
+                .append("Umsatzauskunft")
+                .append('.')
+                .append(PDF_EXTENSION).toString();
     }
 }

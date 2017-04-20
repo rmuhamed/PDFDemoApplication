@@ -15,8 +15,8 @@ import java.util.List;
 
 public class PDFDrawerController extends AbstractPDFDrawerController {
 
-    public PDFDrawerController(Context aContext, int displayWidth, int displayHeight, PDFDrawerControllerResultListener listener) {
-        super(aContext, displayWidth, displayHeight, listener);
+    public PDFDrawerController(Context aContext, String fileName, int displayWidth, int displayHeight, PDFDrawerControllerResultListener listener) {
+        super(aContext, fileName, displayWidth, displayHeight, listener);
     }
 
     @Override

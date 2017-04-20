@@ -4,17 +4,25 @@
     <string name="successful_result">SUCCESS</string>
     <string name="document_title">O2 Banking</string>
 
+    <!-- Right up corner below logo -->
     <string name="txdetails_print_account_holder">Konto-Inhaber</string>
+
+    <!-- Top of table -->
     <string name="txdetails_print_title">Umsatzayskunft O2 Banking Konto</string>
-    <string name="timestamp">Ausgeführt am</string>
-    <string name="value_date">Gebucht am</string>
+    <string name="txdetails_print_pdf_timestamp">PDF erstellt am %s</string>
+
+
+    <!-- Table titles -->>
+    <string name="txdetails_print_table_timestamp">Ausgeführt am</string>
+    <string name="txdetails_print_table_value_date">Gebucht am</string>
     <string name="txdetails_print_table_type">Art</string>
     <string name="txdetails_print_table_summary">Verwendungszweck und Empfänger</string>
     <string name="txdetails_print_table_amoun">Umsatz in €</string>
     <string name="txdetails_print_table_sum">Summe</string>
 
-
+    <!-- Footer -->
     <string name="txdetails_print_footer_imprint">O2 Banking – Ein Service der Fidor Bank AG, Sandstr. 33, 80335 München</string>
+
     <string name="no_pdf_reader_installed_title">No Application Found</string>
     <string name="install_a_reader">Download one from Android Market?</string>
     <string name="ok_go_to_market_action">Yes, Please</string>

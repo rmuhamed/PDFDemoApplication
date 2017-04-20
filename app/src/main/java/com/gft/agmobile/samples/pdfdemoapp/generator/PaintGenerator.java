@@ -31,7 +31,7 @@ public class PaintGenerator {
                 .generate());
 
         paintToBeDrawn.add(new TextPaintGenerator(200, 400,
-                context.getString(R.string.timestamp),
+                context.getString(R.string.txdetails_print_pdf_timestamp),
                 ContextCompat.getColor(context, R.color.main),
                 ContextCompat.getColor(context, R.color.white), 20)
                 .generate());

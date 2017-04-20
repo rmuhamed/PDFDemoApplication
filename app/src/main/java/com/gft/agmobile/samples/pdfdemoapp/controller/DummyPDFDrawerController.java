@@ -16,22 +16,21 @@ import java.util.List;
  * Created by romh on 20/04/2017.
  */
 
-public class DummyPDFDrawerController extends AbstractPDFDrawerController{
+public class DummyPDFDrawerController extends AbstractPDFDrawerController {
 
-    public DummyPDFDrawerController(Context aContext, int displayWidth, int displayHeight, PDFDrawerControllerResultListener listener) {
-        super(aContext, displayWidth, displayHeight, listener);
+    public DummyPDFDrawerController(Context aContext, String fileName, int displayWidth, int displayHeight, PDFDrawerControllerResultListener listener) {
+        super(aContext, fileName, displayWidth, displayHeight, listener);
     }
 
     @Override
     public void make(@NonNull List<GenericPaint> genericPaintList) {
         // crate a page description
-        PdfDocument.Page page = document.startPage(this.pageInfo);
+        PdfDocument.Page page = this.document.startPage(this.pageInfo);
         Canvas c = page.getCanvas();
 
         this.paintTitle(c);
         this.paintSubtitle(c);
         this.paintTableHeader(c);
-
         this.paintFooter(c);
 
         this.document.finishPage(page);
@@ -39,43 +38,54 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController{
         this.write();
     }
 
-    public void paintTitle(Canvas canvas) {
+    private void paintTitle(Canvas canvas) {
         Paint p = new Paint();
-        p.setTextSize(80);
+        p.setTextSize(this.context.getResources().getDimension(R.dimen.title_text_size));
         p.setColor(ContextCompat.getColor(this.context, R.color.main));
 
-        canvas.drawText(this.context.getString(R.string.document_title), 100, 150, p);
+        float titleMarginTop = this.context.getResources().getDimension(R.dimen.document_title_margin_top);
+
+        canvas.drawText(this.context.getString(R.string.document_title), this.marginLeft, titleMarginTop, p);
     }
 
-    public void paintSubtitle(Canvas canvas) {
-        Paint p2 = new Paint();
-        p2.setTextSize(30);
-        p2.setColor(ContextCompat.getColor(this.context, R.color.black));
+    private void paintSubtitle(Canvas canvas) {
+        Paint aPaint = new Paint();
+        aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
+        aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
-        canvas.drawText(this.context.getString(R.string.txdetails_print_title), 100, 300, p2);
+        float titleX = this.context.getResources().getDimension(R.dimen.document_left_margin);
+        float titleY = this.context.getResources().getDimension(R.dimen.txdetails_print_title_margin_top);
+
+        canvas.drawText(this.context.getString(R.string.txdetails_print_title), titleX, titleY, aPaint);
     }
 
-    public void paintTableHeader(Canvas canvas) {
-        String text = context.getString(R.string.txdetails_print_table_type);
-
-        Paint p3 = new Paint();
-        p3.setTextSize(40);
-        p3.setColor(ContextCompat.getColor(this.context, R.color.black));
+    private void paintTableHeader(Canvas canvas) {
+        Paint aPaint = new Paint();
+        aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
+        aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
         Paint rectPaint = new Paint();
         rectPaint.setColor(ContextCompat.getColor(this.context, R.color.mediumGrey));
 
-        canvas.drawRect(marginLeft, 550, marginRight, 700, rectPaint);
-        canvas.drawText(text, 250, 600, p3);
+        float marginTop = this.context.getResources().getDimension(R.dimen.table_header_margin_top);
+        float tableHeaderHeight = marginTop + this.context.getResources().getDimension(R.dimen.table_header_height);
+
+        canvas.drawRect(this.marginLeft, marginTop, this.marginRight, tableHeaderHeight, rectPaint);
+
+        canvas.drawText(this.context.getString(R.string.txdetails_print_table_timestamp), this.marginLeft + 10, 400, aPaint);
+        canvas.drawText(this.context.getString(R.string.txdetails_print_table_value_date), 250, 400, aPaint);
+        canvas.drawText(this.context.getString(R.string.txdetails_print_table_summary), 300, 400, aPaint);
+        canvas.drawText(this.context.getString(R.string.txdetails_print_table_summary), 320, 400, aPaint);
+
     }
 
     private void paintFooter(Canvas canvas) {
-        String footer = context.getString(R.string.txdetails_print_footer_imprint);
+        String footer = this.context.getString(R.string.txdetails_print_footer_imprint);
 
-        Paint p3 = new Paint();
-        p3.setTextSize(40);
-        p3.setColor(ContextCompat.getColor(this.context, R.color.white));
+        Paint aPaint = new Paint();
+        aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
+        aPaint.setColor(ContextCompat.getColor(this.context, R.color.white));
 
-        canvas.drawText(footer, this.marginLeft, this.marginBottom, p3);
+        canvas.drawText(footer, this.marginLeft, this.marginBottom, aPaint);
     }
 }
