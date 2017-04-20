@@ -10,6 +10,8 @@ import android.support.v4.content.ContextCompat;
 import com.gft.agmobile.samples.pdfdemoapp.R;
 import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +19,8 @@ import java.util.List;
  */
 
 public class DummyPDFDrawerController extends AbstractPDFDrawerController {
+
+    public static final String PRINTING_DATE_PATTERN = "dd MMMM yyyy hh:mm";
 
     public DummyPDFDrawerController(Context aContext, String fileName, int displayWidth, int displayHeight, PDFDrawerControllerResultListener listener) {
         super(aContext, fileName, displayWidth, displayHeight, listener);
@@ -30,6 +34,7 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
 
         this.paintTitle(c);
         this.paintSubtitle(c);
+        this.paintPrintInformation(c);
         this.paintTableHeader(c);
         this.paintTableSum(c);
         this.paintFooter(c);
@@ -50,6 +55,21 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
     }
 
     private void paintSubtitle(Canvas canvas) {
+        Paint aPaint = new Paint();
+        aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
+        aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+
+        float titleX = this.context.getResources().getDimension(R.dimen.document_left_margin);
+        float titleY = this.context.getResources().getDimension(R.dimen.txdetails_print_info_title_margin_top);
+
+        canvas.drawText(this.context.getString(R.string.txdetails_print_pdf_timestamp,
+                new SimpleDateFormat(PRINTING_DATE_PATTERN).format(new Date())),
+                titleX,
+                titleY,
+                aPaint);
+    }
+
+    private void paintPrintInformation(Canvas canvas) {
         Paint aPaint = new Paint();
         aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
         aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));

@@ -12,7 +12,7 @@
     <dimen name="document_top_margin">30dp</dimen>
     <dimen name="document_bottom_margin">30dp</dimen>
 
-    <dimen name="table_header_margin_top">120dp</dimen>
+    <dimen name="table_header_margin_top">140dp</dimen>
     <dimen name="table_header_height">20dp</dimen>
     <dimen name="table_header_medium_gravity_text_column">8dp</dimen>
 
@@ -21,9 +21,10 @@
     <dimen name="table_header_column_margin_left">3.5dp</dimen>
 
 
-    <dimen name="table_sum_margin_top">160dp</dimen>
+    <dimen name="table_sum_margin_top">180dp</dimen>
 
     <dimen name="txdetails_print_title_margin_top">100dp</dimen>
+    <dimen name="txdetails_print_info_title_margin_top">120dp</dimen>
 
     <dimen name="document_title_margin_top">40dp</dimen>
 
