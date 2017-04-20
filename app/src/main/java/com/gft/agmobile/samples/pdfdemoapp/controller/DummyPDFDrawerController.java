@@ -115,46 +115,62 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
                 + secondColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_type))
                 + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
 
-        canvas.drawText(this.context.getString(R.string.txdetails_print_table_amount),
+        canvas.drawText(this.context.getString(R.string.txdetails_print_table_summary),
                 fourColumnX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
-                thirdColumnPaint);
+                fourColumnPaint);
 
-//        canvas.drawText(this.context.getString(R.string.txdetails_print_table_summary), 320, 400, aPaint);
+
+        Paint fiveColumnPaint = new Paint();
+        fourColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
+        fourColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+
+        float fiveColumnX =  fourColumnX
+                + secondColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_summary))
+                + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
+
+        canvas.drawText(this.context.getString(R.string.txdetails_print_table_amount),
+                fiveColumnX,
+                tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
+                fiveColumnPaint);
     }
 
     private void paintTableSum(Canvas canvas) {
-        Paint sumLabelPaint = new Paint();
-        sumLabelPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
-        sumLabelPaint.setColor(ContextCompat.getColor(this.context, R.color.white));
-
         Paint rectPaint = new Paint();
         rectPaint.setColor(ContextCompat.getColor(this.context, R.color.main));
 
         float marginTop = this.context.getResources().getDimension(R.dimen.table_sum_margin_top);
         float tableHeaderHeight = marginTop + this.context.getResources().getDimension(R.dimen.table_header_height);
 
-        canvas.drawRect(this.marginLeft, marginTop, this.marginRight, tableHeaderHeight, rectPaint);
+        float sumCellMarginLeft = this.marginRight / 2;
 
-        float sumLabelX = this.marginLeft + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
+        canvas.drawRect(sumCellMarginLeft, marginTop, this.marginRight, tableHeaderHeight, rectPaint);
+
+        Paint sumValuePaint = new Paint();
+        sumValuePaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
+        sumValuePaint.setColor(ContextCompat.getColor(this.context, R.color.white));
+
+        float sumValueX = this.marginRight -
+                sumValuePaint.measureText("\"100 €\"") -
+                this.marginLeft;
+
+        canvas.drawText("\"100 €\"",
+                sumValueX,
+                tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
+                sumValuePaint);
+
+
+        Paint sumLabelPaint = new Paint();
+        sumLabelPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
+        sumLabelPaint.setColor(ContextCompat.getColor(this.context, R.color.white));
+
+        float sumLabelX = sumCellMarginLeft + this.marginLeft;
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_table_sum),
                 sumLabelX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
                 sumLabelPaint);
 
-        Paint sumValuePaint = new Paint();
-        sumValuePaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
-        sumValuePaint.setColor(ContextCompat.getColor(this.context, R.color.white));
-
-        float sumValueX = sumLabelX +
-                sumLabelPaint.measureText(this.context.getString(R.string.txdetails_print_table_sum)) +
-                this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
-
-        canvas.drawText(this.context.getString(R.string.txdetails_print_table_sum),
-                sumValueX,
-                tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
-                sumValuePaint);
 
     }
 

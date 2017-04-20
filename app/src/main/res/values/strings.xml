@@ -16,7 +16,7 @@
     <string name="txdetails_print_table_timestamp">Ausgeführt am</string>
     <string name="txdetails_print_table_value_date">Gebucht am</string>
     <string name="txdetails_print_table_type">Art</string>
-    <string name="txdetails_print_table_summary">Verwendungszweck und Empfänger</string>
+    <string name="txdetails_print_table_summary">Verwendungszweck</string>
     <string name="txdetails_print_table_amount">Umsatz in €</string>
     <string name="txdetails_print_table_sum">Summe</string>
 
