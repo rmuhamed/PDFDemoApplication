@@ -206,7 +206,6 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
                 sumValuePaint);
 
-
         Paint sumLabelPaint = new Paint();
         sumLabelPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
         sumLabelPaint.setColor(ContextCompat.getColor(this.context, R.color.white));
