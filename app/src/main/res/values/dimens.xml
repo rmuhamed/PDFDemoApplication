@@ -30,4 +30,7 @@
     <dimen name="customer_section_margin_top">60dp</dimen>
     <dimen name="customer_section_margin_right">20dp</dimen>
 
+
+    <dimen name="customer_section_margin_top_between_items">3.5dp</dimen>
+
 </resources>

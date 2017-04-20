@@ -56,6 +56,18 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         float marginLeft = this.marginRight - (this.marginRight / 4);
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_account_holder), marginLeft, marginTop, p);
+
+        marginTop = marginTop
+                + this.context.getResources().getDimension(R.dimen.text_size)
+                + this.context.getResources().getDimension(R.dimen.customer_section_margin_top_between_items);
+
+        canvas.drawText(this.context.getString(R.string.global_iban), marginLeft, marginTop, p);
+
+        marginTop = marginTop
+                + this.context.getResources().getDimension(R.dimen.text_size)
+                + this.context.getResources().getDimension(R.dimen.customer_section_margin_top_between_items);
+
+        canvas.drawText(this.context.getString(R.string.global_bic), marginLeft, marginTop, p);
     }
 
     private void paintTitle(Canvas canvas) {

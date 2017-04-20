@@ -6,6 +6,8 @@
 
     <!-- Right up corner below logo -->
     <string name="txdetails_print_account_holder">Konto-Inhaber</string>
+    <string name="global_bic">BIC</string>
+    <string name="global_iban">IBAN</string>
 
     <!-- Top of table -->
     <string name="txdetails_print_title">Umsatzayskunft O2 Banking Konto</string>
