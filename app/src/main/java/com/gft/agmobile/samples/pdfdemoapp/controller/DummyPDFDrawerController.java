@@ -3,6 +3,7 @@ package com.gft.agmobile.samples.pdfdemoapp.controller;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -33,6 +34,7 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         Canvas c = page.getCanvas();
 
         this.paintTitle(c);
+        this.printCustomerInformation(c);
         this.paintSubtitle(c);
         this.paintPrintInformation(c);
         this.paintTableHeader(c);
@@ -44,9 +46,22 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         this.write();
     }
 
+    private void printCustomerInformation(Canvas canvas) {
+        Paint p = new Paint();
+        p.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
+        p.setTypeface(Typeface.DEFAULT_BOLD);
+        p.setColor(ContextCompat.getColor(this.context, R.color.black));
+
+        float marginTop = this.context.getResources().getDimension(R.dimen.customer_section_margin_top);
+        float marginLeft = this.marginRight - (this.marginRight / 4);
+
+        canvas.drawText(this.context.getString(R.string.txdetails_print_account_holder), marginLeft, marginTop, p);
+    }
+
     private void paintTitle(Canvas canvas) {
         Paint p = new Paint();
         p.setTextSize(this.context.getResources().getDimension(R.dimen.title_text_size));
+        p.setTypeface(Typeface.DEFAULT_BOLD);
         p.setColor(ContextCompat.getColor(this.context, R.color.main));
 
         float titleMarginTop = this.context.getResources().getDimension(R.dimen.document_title_margin_top);
@@ -57,6 +72,7 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
     private void paintSubtitle(Canvas canvas) {
         Paint aPaint = new Paint();
         aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
+        aPaint.setTypeface(Typeface.DEFAULT_BOLD);
         aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
         float titleX = this.context.getResources().getDimension(R.dimen.document_left_margin);
