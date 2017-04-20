@@ -2,7 +2,7 @@
     <string name="app_name">PDFDemoApplication</string>
     <string name="pdf_demo_text">PDF Demo Text !!</string>
     <string name="successful_result">SUCCESS</string>
-    <string name="TITLE">O2 Banking</string>
+    <string name="document_title">O2 Banking</string>
 
     <string name="txdetails_print_account_holder">Konto-Inhaber</string>
     <string name="txdetails_print_title">Umsatzayskunft O2 Banking Konto</string>

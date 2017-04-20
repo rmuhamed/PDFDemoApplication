@@ -15,7 +15,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.gft.agmobile.samples.pdfdemoapp.BuildConfig;
 import com.gft.agmobile.samples.pdfdemoapp.R;
+import com.gft.agmobile.samples.pdfdemoapp.canvas.GenericPaint;
 import com.gft.agmobile.samples.pdfdemoapp.controller.DisplayController;
+import com.gft.agmobile.samples.pdfdemoapp.controller.AbstractPDFDrawerController;
+import com.gft.agmobile.samples.pdfdemoapp.controller.DummyPDFDrawerController;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerController;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerControllerResultListener;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFHandlerCallback;
@@ -28,11 +31,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PDFDrawerControllerResultListener, PDFHandlerCallback {
     private static final int PERMISSION_REQUEST = 200;
+    private int documentHeight;
+    private int documentWith;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_main);
+
+        this.calculatePageDimensionsFromDisplay();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int hasStoragePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
@@ -116,17 +123,16 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
     }
 
     private void generatePDF(PDFDrawerControllerResultListener listener) {
-        int actionBarHeight = (int) (56 * DisplayController.getInstance(this).getDensityScale());
-
-        int displayWidth = DisplayController.getInstance(this).getScreenWidth();
-        int displayHeight = DisplayController.getInstance(this).getScreenHeight() - actionBarHeight;
-
-        PDFDrawerController controller = new PDFDrawerController(this, displayWidth, displayHeight, listener);
+        AbstractPDFDrawerController controller = null;
+        List<GenericPaint> paintsToBeDrawnIntoPDF = new ArrayList<>();
         if (BuildConfig.DUMMY) {
-            controller.makeDummyPage();
+            controller = new DummyPDFDrawerController(this, this.documentWith, this.documentHeight, listener);
         } else {
-            controller.make(PaintGenerator.generate(this));
+            controller = new PDFDrawerController(this, this.documentWith, this.documentHeight, listener);
+            paintsToBeDrawnIntoPDF = PaintGenerator.generate(this);
         }
+
+        controller.make(paintsToBeDrawnIntoPDF);
     }
 
     private String[] getPermissionsToCheck(int hasStoragePermission) {
@@ -136,5 +142,12 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
         }
 
         return  permissionList.toArray(new String[permissionList.size()]);
+    }
+
+    private void calculatePageDimensionsFromDisplay() {
+        int actionBarHeight = (int) (56 * DisplayController.getInstance(this).getDensityScale());
+
+        this.documentWith = DisplayController.getInstance(this).getScreenWidth();
+        this.documentHeight = DisplayController.getInstance(this).getScreenHeight() - actionBarHeight;
     }
 }
