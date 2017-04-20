@@ -65,14 +65,14 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         p.setColor(ContextCompat.getColor(this.context, R.color.main));
 
         float titleMarginTop = this.context.getResources().getDimension(R.dimen.document_title_margin_top);
+        float center = this.marginRight / 2 - (p.measureText(this.context.getString(R.string.document_title)) / 2);
 
-        canvas.drawText(this.context.getString(R.string.document_title), this.marginLeft, titleMarginTop, p);
+        canvas.drawText(this.context.getString(R.string.document_title), center, titleMarginTop, p);
     }
 
-    private void paintSubtitle(Canvas canvas) {
+    private void paintPrintInformation(Canvas canvas) {
         Paint aPaint = new Paint();
         aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
-        aPaint.setTypeface(Typeface.DEFAULT_BOLD);
         aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
         float titleX = this.context.getResources().getDimension(R.dimen.document_left_margin);
@@ -85,9 +85,10 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
                 aPaint);
     }
 
-    private void paintPrintInformation(Canvas canvas) {
+    private void paintSubtitle(Canvas canvas) {
         Paint aPaint = new Paint();
         aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.text_size));
+        aPaint.setTypeface(Typeface.DEFAULT_BOLD);
         aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
         float titleX = this.context.getResources().getDimension(R.dimen.document_left_margin);
