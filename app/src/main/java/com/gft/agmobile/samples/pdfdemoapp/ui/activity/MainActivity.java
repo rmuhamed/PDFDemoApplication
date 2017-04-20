@@ -1,9 +1,7 @@
 package com.gft.agmobile.samples.pdfdemoapp.ui.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -14,7 +12,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.TypedValue;
 
 import com.gft.agmobile.samples.pdfdemoapp.BuildConfig;
 import com.gft.agmobile.samples.pdfdemoapp.R;
@@ -24,14 +21,12 @@ import com.gft.agmobile.samples.pdfdemoapp.controller.PDFDrawerControllerResultL
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFHandlerCallback;
 import com.gft.agmobile.samples.pdfdemoapp.controller.PDFHandlerController;
 import com.gft.agmobile.samples.pdfdemoapp.generator.PaintGenerator;
+import com.gft.agmobile.samples.pdfdemoapp.ui.navigation.NavigationHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements PDFDrawerControllerResultListener, PDFHandlerCallback {
-
-    public static final String APPLICATION_PDF = "application/pdf";
-    public static final String MARKET_LINK_TO_ADOBE_READER = "market://details?id=com.adobe.reader";
     private static final int PERMISSION_REQUEST = 200;
 
     @Override
@@ -75,11 +70,12 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
                     if (permissionDenied) {
                         //Inform to user
                     } else {
-                        generatePDF(MainActivity.this);
+                        this.generatePDF(this);
                     }
                 }
                 break;
             }
+
             default:
                 break;
         }
@@ -87,13 +83,9 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
 
     @Override
     public void onViewPDF(Uri aPDFUri) {
-        Intent intent;
-        intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(aPDFUri, APPLICATION_PDF);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         try {
-            this.startActivityForResult(intent, Activity.RESULT_FIRST_USER);
+            NavigationHandler.getInstance(this).openAdobeReaderFor(aPDFUri);
+            //Close out application (NO GO BACK Logic)
             this.finish();
         } catch (ActivityNotFoundException e) {
             this.showPDFReaderNotFoundDialog();
@@ -102,15 +94,18 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
 
     public void showPDFReaderNotFoundDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("No Application Found");
-        builder.setMessage("Download one from Android Market?");
-        builder.setPositiveButton("Yes, Please",
+        builder.setTitle(R.string.no_pdf_reader_installed_title);
+        builder.setMessage(R.string.install_a_reader);
+        //Positive button action
+        builder.setPositiveButton(R.string.ok_go_to_market_action,
                 (dialog, which) -> {
-                    Intent marketIntent = new Intent(Intent.ACTION_VIEW);
-                    marketIntent.setData(Uri.parse(MARKET_LINK_TO_ADOBE_READER));
-                    MainActivity.this.startActivity(marketIntent);
+                    NavigationHandler.getInstance(MainActivity.this).lookUPForAdobeReader();
                 });
-        builder.setNegativeButton("No, Thanks", null);
+        //Negative button action
+        builder.setNegativeButton(R.string.cancel_go_to_market_action, (dialog, which) -> {
+            NavigationHandler.getInstance(MainActivity.this).closeApp();
+        });
+
         builder.create().show();
     }
 
@@ -132,7 +127,6 @@ public class MainActivity extends AppCompatActivity implements PDFDrawerControll
         } else {
             controller.make(PaintGenerator.generate(this));
         }
-
     }
 
     private String[] getPermissionsToCheck(int hasStoragePermission) {

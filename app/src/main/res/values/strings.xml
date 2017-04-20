@@ -15,4 +15,8 @@
 
 
     <string name="txdetails_print_footer_imprint">O2 Banking – Ein Service der Fidor Bank AG, Sandstr. 33, 80335 München</string>
+    <string name="no_pdf_reader_installed_title">No Application Found</string>
+    <string name="install_a_reader">Download one from Android Market?</string>
+    <string name="ok_go_to_market_action">Yes, Please</string>
+    <string name="cancel_go_to_market_action">No, Thanks</string>
 </resources>
