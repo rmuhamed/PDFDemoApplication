@@ -53,7 +53,7 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         p.setColor(ContextCompat.getColor(this.context, R.color.black));
 
         float marginTop = this.context.getResources().getDimension(R.dimen.customer_section_margin_top);
-        float marginLeft = this.marginRight - (this.marginRight / 4);
+        float marginLeft = (float) (this.marginRight - (this.marginRight / 2.5));
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_account_holder), marginLeft, marginTop, p);
 
@@ -155,7 +155,6 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
                 thirdColumnPaint);
 
-
         Paint fourColumnPaint = new Paint();
         fourColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
         fourColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
@@ -169,13 +168,12 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
                 fourColumnPaint);
 
-
         Paint fiveColumnPaint = new Paint();
-        fourColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
-        fourColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+        fiveColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
+        fiveColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
-        float fiveColumnX =  fourColumnX
-                + secondColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_summary))
+        float fiveColumnX = fourColumnX
+                + fourColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_summary))
                 + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_table_amount),
@@ -219,8 +217,6 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
                 sumLabelX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
                 sumLabelPaint);
-
-
     }
 
     private void paintFooter(Canvas canvas) {
@@ -230,6 +226,8 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.footer_text_size));
         aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
-        canvas.drawText(footer, this.marginLeft, this.marginBottom, aPaint);
+        float center = this.marginRight / 2 - (aPaint.measureText(footer) / 2);
+
+        canvas.drawText(footer, center, this.marginBottom, aPaint);
     }
 }

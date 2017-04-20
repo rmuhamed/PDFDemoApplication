@@ -5,7 +5,8 @@
 
     <dimen name="title_text_size">20sp</dimen>
     <dimen name="text_size">11sp</dimen>
-    <dimen name="footer_text_size">7sp</dimen>
+    <dimen name="footer_text_size">8sp</dimen>
+    <dimen name="table_header_column_text_size">6sp</dimen>
 
     <dimen name="document_left_margin">20dp</dimen>
     <dimen name="document_right_margin">20dp</dimen>
@@ -16,9 +17,8 @@
     <dimen name="table_header_height">20dp</dimen>
     <dimen name="table_header_medium_gravity_text_column">8dp</dimen>
 
-    <dimen name="table_header_column_text_size">8sp</dimen>
 
-    <dimen name="table_header_column_margin_left">3.5dp</dimen>
+    <dimen name="table_header_column_margin_left">5dp</dimen>
 
 
     <dimen name="table_sum_margin_top">200dp</dimen>
