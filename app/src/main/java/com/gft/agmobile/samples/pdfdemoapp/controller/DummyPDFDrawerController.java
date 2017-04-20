@@ -1,9 +1,13 @@
 package com.gft.agmobile.samples.pdfdemoapp.controller;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.pdf.PdfDocument;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -80,6 +84,14 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         float center = this.marginRight / 2 - (p.measureText(this.context.getString(R.string.document_title)) / 2);
 
         canvas.drawText(this.context.getString(R.string.document_title), center, titleMarginTop, p);
+
+//        Drawable drawable = this.context.getResources().getDrawable(R.drawable.o2banking_logo);
+//        drawable.
+//
+//        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+//
+//        canvas.drawBitmap(bitmap, center, titleMarginTop, new Paint());
+
     }
 
     private void paintPrintInformation(Canvas canvas) {
@@ -110,9 +122,9 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
     }
 
     private void paintTableHeader(Canvas canvas) {
-        Paint firstColumnPaint = new Paint();
-        firstColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
-        firstColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+        Paint aPaint = new Paint();
+        aPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
+        aPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
 
         Paint rectPaint = new Paint();
         rectPaint.setColor(ContextCompat.getColor(this.context, R.color.mediumGrey));
@@ -127,59 +139,43 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         canvas.drawText(this.context.getString(R.string.txdetails_print_table_timestamp),
                 firstColumnX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
-                firstColumnPaint);
-
-        Paint secondColumnPaint = new Paint();
-        secondColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
-        secondColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+                aPaint);
 
         float secondColumnX =  firstColumnX
-                + firstColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_timestamp))
+                + aPaint.measureText(this.context.getString(R.string.txdetails_print_table_timestamp))
                 + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_table_value_date),
                 secondColumnX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
-                secondColumnPaint);
-
-        Paint thirdColumnPaint = new Paint();
-        thirdColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
-        thirdColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+                aPaint);
 
         float thirdColumnX =  secondColumnX
-                + secondColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_value_date))
+                + aPaint.measureText(this.context.getString(R.string.txdetails_print_table_value_date))
                 + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_table_type),
                 thirdColumnX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
-                thirdColumnPaint);
-
-        Paint fourColumnPaint = new Paint();
-        fourColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
-        fourColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+                aPaint);
 
         float fourColumnX =  thirdColumnX
-                + secondColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_type))
+                + aPaint.measureText(this.context.getString(R.string.txdetails_print_table_type))
                 + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_table_summary),
                 fourColumnX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
-                fourColumnPaint);
-
-        Paint fiveColumnPaint = new Paint();
-        fiveColumnPaint.setTextSize(this.context.getResources().getDimension(R.dimen.table_header_column_text_size));
-        fiveColumnPaint.setColor(ContextCompat.getColor(this.context, R.color.black));
+                aPaint);
 
         float fiveColumnX = fourColumnX
-                + fourColumnPaint.measureText(this.context.getString(R.string.txdetails_print_table_summary))
+                + aPaint.measureText(this.context.getString(R.string.txdetails_print_table_summary))
                 + this.context.getResources().getDimension(R.dimen.table_header_column_margin_left);
 
         canvas.drawText(this.context.getString(R.string.txdetails_print_table_amount),
                 fiveColumnX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
-                fiveColumnPaint);
+                aPaint);
     }
 
     private void paintTableSum(Canvas canvas) {
@@ -198,10 +194,10 @@ public class DummyPDFDrawerController extends AbstractPDFDrawerController {
         sumValuePaint.setColor(ContextCompat.getColor(this.context, R.color.white));
 
         float sumValueX = this.marginRight -
-                sumValuePaint.measureText("\"100 €\"") -
+                sumValuePaint.measureText("100 EUR") -
                 this.marginLeft;
 
-        canvas.drawText("\"100 €\"",
+        canvas.drawText("100 EUR",
                 sumValueX,
                 tableHeaderHeight - this.context.getResources().getDimension(R.dimen.table_header_medium_gravity_text_column),
                 sumValuePaint);
